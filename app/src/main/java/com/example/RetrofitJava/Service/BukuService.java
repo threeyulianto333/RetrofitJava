@@ -1,8 +1,12 @@
 package com.example.RetrofitJava.Service;
 
+import androidx.annotation.StringDef;
+
 import com.example.RetrofitJava.Endpoint.Endpoint;
 import com.example.RetrofitJava.Item.SemuabukuItem;
 import com.example.RetrofitJava.Response.BukuResponse;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -16,19 +20,18 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface BukuService {
-    @FormUrlEncoded
-//    @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST(Endpoint.API_CREATE_BUKU)
-    Call<BukuResponse> apiCreateBuku(@Field("judul") String judul);
+    Call<BukuResponse> apiCreateBuku(@Body SemuabukuItem Buku);
 
     @GET(Endpoint.API_READ_BUKU)
     Call<BukuResponse<List<SemuabukuItem>>> apiReadBuku();
 
-    @FormUrlEncoded
+//    @FormUrlEncoded
     @POST(Endpoint.API_UPDATE_BUKU)
     Call<BukuResponse> apiUpdateBuku(
-            @Field("id") String id,
-            @Field("name") String name
+//            @Field("id") Integer id,
+//            @Field("judul") String judul
+            @Body SemuabukuItem Buku
     );
 
     @GET(Endpoint.API_DELETE_BUKU+"{id}")

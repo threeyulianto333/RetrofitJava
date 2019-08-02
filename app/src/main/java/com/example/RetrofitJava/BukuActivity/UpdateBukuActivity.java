@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.RetrofitJava.Api.ApiService;
 import com.example.RetrofitJava.Item.SemuabukuItem;
+import com.example.RetrofitJava.MainActivity;
 import com.example.RetrofitJava.R;
 import com.example.RetrofitJava.Response.BukuResponse;
 import com.example.RetrofitJava.Service.BukuService;
@@ -26,7 +27,7 @@ import static android.text.TextUtils.isEmpty;
 public class UpdateBukuActivity extends AppCompatActivity {
     private static final String TAG = UpdateBukuActivity.class.getSimpleName();
 
-    private EditText etName;
+    private EditText etJudul;
     private Button btnSubmit;
     private BukuService service;
     private SemuabukuItem dataBuku;
@@ -57,27 +58,34 @@ public class UpdateBukuActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = etName.getText().toString();
+                String judul = etJudul.getText().toString();
                 String id = dataBuku.getId();
-                Log.e("name", name);
+                Log.e("id = ", id);
+                Log.e("Judulnya = ", judul);
 
-                if(isEmpty(name))
-                    etName.setError("Must not be empty");
+                if(isEmpty(judul))
+                    etJudul.setError("Must not be empty");
                 else
-                    updateData(id,name);
+                    updateData(id,judul);
             }
         });
     }
 
-    private void updateData(String id,String name) {
-        Call<BukuResponse> call = service.apiUpdateBuku(dataBuku.getId(), name);
+    private void updateData(String id,String judul) {
+//        SemuabukuItem BukuJsonJudul = new SemuabukuItem(judul);
+        SemuabukuItem BukuJsonId = new SemuabukuItem(id,judul);
+        Call<BukuResponse> call = service.apiUpdateBuku(BukuJsonId);
 
         call.enqueue(new Callback<BukuResponse>() {
             @Override
             public void onResponse(Call<BukuResponse> call, Response<BukuResponse> response) {
                 if(response.code() == 200) {
                     Toast.makeText(UpdateBukuActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                    etName.setText("");
+                    etJudul.setText("");
+                    BukuActivity.newInstance(UpdateBukuActivity.this);
+                } else{
+//                    Log.e(TAG , BukuJson.getJudul());
+                    Log.e(TAG + "Error bagian response" , response.raw().toString());
                 }
             }
 
@@ -89,9 +97,9 @@ public class UpdateBukuActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        etName = (EditText) findViewById(R.id.et_judul);
-        btnSubmit = (Button) findViewById(R.id.btn_submit);
+        etJudul = findViewById(R.id.et_judul);
+        btnSubmit = findViewById(R.id.btn_submit);
 
-        etName.setText(dataBuku.getJudul());
+        etJudul.setText(dataBuku.getJudul());
     }
 }

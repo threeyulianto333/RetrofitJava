@@ -45,7 +45,7 @@ public class ApiService {
                 Request request = chain.request();
                 Request newReq = request.newBuilder()
                         .header("Accept", "application/json")
-                        .header("Content-Type", "application/json")
+//                        .header("Content-Type", "application/json")
                         .build();
                 return chain.proceed(newReq);
             }

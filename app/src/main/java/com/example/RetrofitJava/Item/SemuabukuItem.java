@@ -3,12 +3,15 @@ package com.example.RetrofitJava.Item;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class SemuabukuItem implements Parcelable {
+    @Expose
     @SerializedName("judul")
     private String judul;
 
+    @Expose
     @SerializedName("id")
     private String id;
 
@@ -32,9 +35,15 @@ public class SemuabukuItem implements Parcelable {
     public String toString(){
         return
                 "SemuabukuItem{" +
-                        "nama = '" + judul + '\'' +
-                        ",id = '" + id + '\'' +
+                        "id = '" + id + '\'' +
+                        ",judul = '" + judul + '\'' +
                         "}";
+//                "SemuabukuItem{" +
+//                        "title='" + title + '\'' +
+//                        ", body='" + body + '\'' +
+//                        ", judul=" + judul+
+//                        ", id=" + id +
+//                        '}';
     }
 
     @Override
@@ -48,10 +57,17 @@ public class SemuabukuItem implements Parcelable {
         dest.writeString(judul);
     }
 
+    public SemuabukuItem(String id,String judul) {
+        this.id = id;
+        this.judul= judul;
+    }
+
     protected SemuabukuItem(Parcel in) {
+//        id = in.readString();
         id = in.readString();
         judul = in.readString();
     }
+
     public static final Creator<SemuabukuItem> CREATOR = new Creator<SemuabukuItem>() {
         @Override
         public SemuabukuItem createFromParcel(Parcel in) {
